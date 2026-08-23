@@ -1,6 +1,5 @@
 import type { UploadResult, SimulationResult } from './types'
-
-const API_BASE = 'http://127.0.0.1:8000'
+const API_BASE = 'https://socialpulse-o0z8.onrender.com'
 
 export async function uploadFile(file: File): Promise<UploadResult> {
   const formData = new FormData()
