@@ -43,6 +43,9 @@ Two example files are included in `sample_data/` for quick testing:
 **Content Intelligence Dashboard**
 ![Dashboard](docs/dashboard.png)
 
+**Content Autopsy**
+![Autopsy](docs/autopsy.png)
+
 **Counterfactual Simulator**
 ![Simulator](docs/simulator.png)
 
