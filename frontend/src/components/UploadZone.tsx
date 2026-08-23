@@ -6,6 +6,7 @@ interface UploadZoneProps {
 
 export function UploadZone({ onFileSelected }: UploadZoneProps) {
   const [isDragging, setIsDragging] = useState(false)
+  const [loadingSample, setLoadingSample] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const onDrop = (e: DragEvent<HTMLDivElement>) => {
@@ -20,34 +21,59 @@ export function UploadZone({ onFileSelected }: UploadZoneProps) {
     if (file) onFileSelected(file)
   }
 
+  const trySample = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setLoadingSample(true)
+    try {
+      const response = await fetch('/weak_post_example.png')
+      const blob = await response.blob()
+      const file = new File([blob], 'weak_post_example.png', { type: 'image/png' })
+      onFileSelected(file)
+    } finally {
+      setLoadingSample(false)
+    }
+  }
+
   return (
-    <div
-      onDrop={onDrop}
-      onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
-      onDragLeave={() => setIsDragging(false)}
-      onClick={() => fileInputRef.current?.click()}
-      className={`
-        relative rounded-2xl border-2 border-dashed p-16 text-center cursor-pointer
-        transition-all duration-200 backdrop-blur-sm
-        ${isDragging
-          ? 'border-emerald-400 bg-emerald-400/10'
-          : 'border-slate-700 bg-slate-900/40 hover:border-slate-500 hover:bg-slate-900/60'}
-      `}
-    >
-      <div className="mx-auto mb-4 h-14 w-14 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-        </svg>
+    <div>
+      <div
+        onDrop={onDrop}
+        onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
+        onDragLeave={() => setIsDragging(false)}
+        onClick={() => fileInputRef.current?.click()}
+        className={`
+          relative rounded-2xl border-2 border-dashed p-16 text-center cursor-pointer
+          transition-all duration-200 backdrop-blur-sm
+          ${isDragging
+            ? 'border-emerald-400 bg-emerald-400/10'
+            : 'border-slate-700 bg-slate-900/40 hover:border-slate-500 hover:bg-slate-900/60'}
+        `}
+      >
+        <div className="mx-auto mb-4 h-14 w-14 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+        </div>
+        <p className="text-slate-200 text-lg font-medium">Drop your file here, or click to browse</p>
+        <p className="text-slate-500 text-sm mt-1">PDF, PNG, JPG</p>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".pdf,.png,.jpg,.jpeg"
+          onChange={onFileInputChange}
+          className="hidden"
+        />
       </div>
-      <p className="text-slate-200 text-lg font-medium">Drop your file here, or click to browse</p>
-      <p className="text-slate-500 text-sm mt-1">PDF, PNG, JPG</p>
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".pdf,.png,.jpg,.jpeg"
-        onChange={onFileInputChange}
-        className="hidden"
-      />
+
+      <div className="text-center mt-4">
+        <button
+          onClick={trySample}
+          disabled={loadingSample}
+          className="text-sm text-violet-400 hover:text-violet-300 underline underline-offset-4 transition-colors disabled:opacity-50"
+        >
+          {loadingSample ? 'Loading sample...' : "Don't have a file handy? Try a sample post"}
+        </button>
+      </div>
     </div>
   )
 }
