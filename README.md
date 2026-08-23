@@ -34,6 +34,18 @@ Two example files are included in `sample_data/` for quick testing:
 3. Read the Content Autopsy findings
 4. Click "Simulate Better Hook" and observe the score improvement
 
+
+## Screenshots
+
+**Upload Screen**
+![Upload Screen](docs/upload-screen.png)
+
+**Content Intelligence Dashboard**
+![Dashboard](docs/dashboard.png)
+
+**Counterfactual Simulator**
+![Simulator](docs/simulator.png)
+
 ## Limitations & Honesty Note
 
 The "Content Score" is a measure under this project's own defined scoring framework — it is **not** a prediction of real engagement, likes, or virality. A future version could calibrate against real historical engagement data.
