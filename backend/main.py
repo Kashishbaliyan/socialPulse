@@ -122,7 +122,6 @@ async def simulate(request: SimulateRequest):
     try:
         result = simulate_hook_improvement(request.text)
     except Exception as e:
-        print(f"SIMULATION ERROR: {e}")  # temporary debug line
         raise HTTPException(
             status_code=502,
             detail="AI service is temporarily unavailable. Please try again."
