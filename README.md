@@ -116,9 +116,7 @@ FastAPI Backend (Render)
             v
     Content Intelligence
          Dashboard
-
-
-## Screenshots
+```
 
 ## Screenshots
 
