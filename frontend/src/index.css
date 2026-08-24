@@ -1,1 +1,91 @@
 @import "tailwindcss";
+
+:root {
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: #201B46;
+  background: #FBF9FF;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #F6F7FB;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #FBF9FF;
+  color: #201B46;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid #665CF6;
+  outline-offset: 3px;
+}
+
+::selection {
+  background: #FFD0EC;
+  color: #201B46;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FBF9FF;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #BDB5DA;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7667FF;
+}
+
+.gradient-text { background: linear-gradient(100deg, #665CF6 8%, #EF62B5 52%, #F6A947 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero-glow { position: absolute; border-radius: 999px; pointer-events: none; opacity: .6; }
+.hero-glow-pink { width: 360px; height: 360px; right: -120px; top: 80px; background: radial-gradient(circle, #ffc2e3, transparent 68%); }
+.hero-glow-aqua { width: 300px; height: 300px; left: -130px; bottom: -100px; background: radial-gradient(circle, #a5f5e8, transparent 68%); }
+.pulse-card { animation: float-card 4s ease-in-out infinite; }
+@keyframes float-card { 50% { transform: translateY(-7px); } }
+.app-background { background-color: #fbf9ff; background-image: radial-gradient(circle at 8% 14%, rgba(239, 98, 181, .14), transparent 25rem), radial-gradient(circle at 93% 23%, rgba(102, 92, 246, .15), transparent 29rem), radial-gradient(circle at 50% 90%, rgba(55, 211, 188, .13), transparent 25rem); }
+.score-ring { animation: score-ring 1.25s cubic-bezier(.22, 1, .36, 1) forwards; }
+.score-bar { transform: scaleX(0); transform-origin: left; animation: score-bar 1s cubic-bezier(.22, 1, .36, 1) .2s forwards; }
+@keyframes score-ring { to { stroke-dashoffset: var(--score-offset); } }
+@keyframes score-bar { to { transform: scaleX(var(--progress)); } }
+@media (prefers-reduced-motion: reduce) { .pulse-card, .score-ring, .score-bar { animation: none; } .score-bar { transform: scaleX(var(--progress)); } }

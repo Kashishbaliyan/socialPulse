@@ -15,7 +15,9 @@ https://socialpulse-o0z8.onrender.com
 
 https://socialpulse-o0z8.onrender.com/docs
 
-Get a free key at https://aistudio.google.com/apikey
+Create a key at https://openrouter.ai/keys
+
+Set `OPENROUTER_API_KEY` and optionally `OPENROUTER_MODEL` in `backend/.env`.
 
 ### Run the backend
 ```bash
@@ -65,7 +67,7 @@ Frontend runs at `http://localhost:5173`.
 - Tesseract OCR
 
 ### AI
-- Google Gemini
+- OpenRouter
 
 ### Deployment
 

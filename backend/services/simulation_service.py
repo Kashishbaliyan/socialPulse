@@ -1,15 +1,11 @@
 import os
 import re
-import google.generativeai as genai
 from dotenv import load_dotenv
 
 from services.scoring_service import score_content
+from services.openrouter_service import generate_text
 
 load_dotenv()
-
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-_model = genai.GenerativeModel("gemini-3.6-flash")
-
 
 def _split_sentences(text: str) -> list[str]:
     sentences = re.split(r'(?<=[.!?])\s+', text.strip())
@@ -26,8 +22,14 @@ def _generate_improved_hook(original_hook: str, full_text: str) -> str:
         f"Original hook: {original_hook}\n\n"
         f"Full content for context:\n{full_text[:1000]}"
     )
-    response = _model.generate_content(prompt)
-    return response.text.strip().strip('"')
+    return generate_text(prompt).strip('"')
+
+
+def _fallback_hook(original_hook: str) -> str:
+    if len(original_hook.split()) <= 5:
+        hook_subject = original_hook.rstrip(".!? ").lower()
+        return f"What nobody tells you about {hook_subject}."
+    return "The biggest lesson here is the mistake most people make first."
 
 
 def simulate_hook_improvement(text: str) -> dict:
@@ -36,7 +38,10 @@ def simulate_hook_improvement(text: str) -> dict:
         raise ValueError("No content to simulate.")
 
     original_hook = sentences[0]
-    new_hook = _generate_improved_hook(original_hook, text)
+    try:
+        new_hook = _generate_improved_hook(original_hook, text)
+    except Exception:
+        new_hook = _fallback_hook(original_hook)
 
     modified_sentences = [new_hook] + sentences[1:]
     modified_text = " ".join(modified_sentences)

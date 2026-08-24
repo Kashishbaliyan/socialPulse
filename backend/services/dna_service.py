@@ -1,12 +1,10 @@
 import os
 import json
-import google.generativeai as genai
+import re
 from dotenv import load_dotenv
+from services.openrouter_service import generate_text
 
 load_dotenv()
-
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-_model = genai.GenerativeModel("gemini-3.6-flash")
 
 DEFAULT_DNA = {
     "purpose": "Unknown",
@@ -18,6 +16,47 @@ DEFAULT_DNA = {
     "structure": "Unknown",
     "complexity": "Unknown",
 }
+
+
+def _fallback_dna(text: str) -> dict:
+    words = re.findall(r"[A-Za-z]+", text)
+    lower = text.lower()
+    sentences = [part for part in re.split(r"[.!?]+", text) if part.strip()]
+    average_sentence_length = len(words) / max(len(sentences), 1)
+
+    if any(word in lower for word in ("buy", "pricing", "offer", "download", "sign up")):
+        purpose = "Sell"
+    elif any(word in lower for word in ("learn", "lesson", "how to", "guide", "steps")):
+        purpose = "Educate"
+    elif any(word in lower for word in ("built", "started", "learned", "my first")):
+        purpose = "Inspire"
+    else:
+        purpose = "Inform"
+
+    if any(word in lower for word in ("i ", "my ", "me ", "built", "started")):
+        content_type = "Personal Story"
+    elif any(word in lower for word in ("how to", "steps", "tutorial", "guide")):
+        content_type = "Tutorial"
+    elif any(word in lower for word in ("product", "service", "offer", "pricing")):
+        content_type = "Marketing"
+    else:
+        content_type = "Thought Leadership"
+
+    tone = "Humorous" if any(word in lower for word in ("funny", "joke", "😂")) else "Casual"
+    complexity = "Advanced" if average_sentence_length > 22 else "Medium" if average_sentence_length > 12 else "Simple"
+    topic_words = words[:4] or ["General content"]
+
+    return {
+        **DEFAULT_DNA,
+        "purpose": purpose,
+        "topic": " ".join(topic_words),
+        "content_type": content_type,
+        "tone": tone,
+        "emotion": "Curiosity" if "?" in text else "Interest",
+        "audience": "Social media readers",
+        "structure": "Hook -> Context -> Insight" if len(sentences) > 1 else "Single-point message",
+        "complexity": complexity,
+    }
 
 
 def analyze_content_dna(text: str) -> dict:
@@ -37,10 +76,9 @@ def analyze_content_dna(text: str) -> dict:
     )
 
     try:
-        response = _model.generate_content(prompt)
-        raw = response.text.strip()
+        raw = generate_text(prompt)
         raw = raw.replace("```json", "").replace("```", "").strip()
         parsed = json.loads(raw)
         return {**DEFAULT_DNA, **parsed}
     except Exception:
-        return DEFAULT_DNA
+        return _fallback_dna(text)
