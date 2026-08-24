@@ -1,3 +1,20 @@
+# SocialPulse
+
+AI-powered Social Media Content Analyzer that evaluates content quality,
+identifies weaknesses, extracts Content DNA, and simulates improved hooks.
+
+## Live Demo
+
+https://social-pulse-silk-six.vercel.app
+
+## Backend API
+
+https://socialpulse-o0z8.onrender.com
+
+### API Documentation
+
+https://socialpulse-o0z8.onrender.com/docs
+
 Get a free key at https://aistudio.google.com/apikey
 
 ### Run the backend
@@ -14,12 +31,46 @@ npm run dev
 ```
 Frontend runs at `http://localhost:5173`.
 
+## Key Features
+
+- PDF and PNG/JPG content upload
+- PDF text extraction using PyMuPDF
+- OCR for images and scanned PDFs using Tesseract
+- Content quality scoring
+- Content Autopsy with actionable recommendations
+- Content DNA classification using Gemini
+- Counterfactual Hook Simulator
+- Responsive React interface
+- FastAPI backend with structured error handling
+
 ## API Endpoints
 
 | Method | Endpoint | Purpose |
 |---|---|---|
 | POST | `/api/upload` | Upload PDF/image, extract text, score, and run autopsy |
 | POST | `/api/simulate` | Regenerate the hook and return before/after comparison |
+
+## Tech Stack
+
+### Frontend
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+
+### Backend
+- Python
+- FastAPI
+- PyMuPDF
+- Tesseract OCR
+
+### AI
+- Google Gemini
+
+### Deployment
+
+- Vercel — Frontend
+- Render — Backend
 
 ## Sample Data
 
@@ -32,7 +83,39 @@ Two example files are included in `sample_data/` for quick testing:
 1. Upload `sample_data/weak_post_example.png`
 2. Review the overall score and per-dimension breakdown
 3. Read the Content Autopsy findings
-4. Click "Simulate Better Hook" and observe the score improvement
+4. Review the Content DNA classification
+5. Click "Simulate Better Hook" and observe the score improvement
+
+## Architecture
+
+```text
+React + TypeScript (Vercel)
+            |
+            v
+FastAPI Backend (Render)
+            |
+            v
+     PDF / Image Processing
+            |
+       +----+----+
+       |         |
+    PyMuPDF   Tesseract
+       |         |
+       +----+----+
+            |
+            v
+      Extracted Text
+            |
+    +-------+-------+-------+
+    |       |       |       |
+    v       v       v       v
+ Scoring  Autopsy  DNA   Simulator
+    |       |       |       |
+    +-------+-------+-------+
+            |
+            v
+    Content Intelligence
+         Dashboard
 
 
 ## Screenshots
@@ -45,6 +128,9 @@ Two example files are included in `sample_data/` for quick testing:
 
 **Content Autopsy**
 ![Autopsy](docs/autopsy.png)
+
+**Content DNA**
+![Content DNA](docs/content-dna.png)
 
 **Counterfactual Simulator**
 ![Simulator](docs/simulator.png)
