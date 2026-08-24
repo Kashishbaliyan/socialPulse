@@ -28,12 +28,24 @@ export interface Autopsy {
   top_priority_fix: string
 }
 
+export interface ContentDNA {
+  purpose: string
+  topic: string
+  content_type: string
+  tone: string
+  emotion: string
+  audience: string
+  structure: string
+  complexity: string
+}
+
 export interface UploadResult {
   filename: string
   extraction_method: string
   extracted_text: string
   scoring: Scoring
   autopsy: Autopsy
+  content_dna: ContentDNA
 }
 
 export interface SimulationResult {

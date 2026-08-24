@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from services.simulation_service import simulate_hook_improvement
 
 from services.scoring_service import score_content
+from services.dna_service import analyze_content_dna
 
 app = FastAPI(title="SocialPulse API")
 
@@ -102,6 +103,7 @@ async def upload_file(file: UploadFile = File(...)):
 
     scoring = score_content(text)
     autopsy = build_autopsy(scoring)
+    content_dna = analyze_content_dna(text)
 
     return {
         "filename": file.filename,
@@ -113,6 +115,7 @@ async def upload_file(file: UploadFile = File(...)):
         "character_count": len(text),
         "scoring": scoring,
         "autopsy": autopsy,
+        "content_dna": content_dna,
     }
 @app.post("/api/simulate")
 async def simulate(request: SimulateRequest):

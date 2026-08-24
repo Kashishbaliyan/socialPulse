@@ -5,6 +5,7 @@ import { AutopsyPanel } from './components/AutopsyPanel'
 import { Simulator } from './components/Simulator'
 import type { UploadResult } from './types'
 import { uploadFile } from './api'
+import { DNAProfile } from './components/DNAProfile'
 
 type Stage = 'upload' | 'processing' | 'results'
 
@@ -58,7 +59,9 @@ function App() {
             <button onClick={reset} className="text-slate-400 hover:text-white text-sm transition-colors">
               ← Analyze another file
             </button>
+        
             <ScoreCard scoring={result.scoring} extractionMethod={result.extraction_method} />
+            <DNAProfile dna={result.content_dna} />
             <AutopsyPanel autopsy={result.autopsy} />
             <Simulator text={result.extracted_text} />
           </div>
