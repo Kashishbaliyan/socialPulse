@@ -120,19 +120,26 @@ FastAPI Backend (Render)
 
 ## Screenshots
 
+## Screenshots
+
 **Upload Screen**
+
 ![Upload Screen](docs/upload-screen.png)
 
 **Content Intelligence Dashboard**
+
 ![Dashboard](docs/dashboard.png)
 
 **Content Autopsy**
+
 ![Autopsy](docs/autopsy.png)
 
 **Content DNA**
+
 ![Content DNA](docs/content-dna.png)
 
 **Counterfactual Simulator**
+
 ![Simulator](docs/simulator.png)
 
 ## Limitations & Honesty Note
